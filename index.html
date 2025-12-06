@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ֆիթնես Խորհրդատու Փորձագիտական Համակարգ</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* CSS-ի կոդը կարող եք տեղադրել այստեղ, կամ թողնել style.css ֆայլը */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .question-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .result-area {
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            background-color: #e7f0ff;
+        }
+
+        .result-area.hidden {
+            display: none;
+        }
+
+        #calorieDisplay, #planDisplay, #adviceDisplay {
+            margin-top: 15px;
+            line-height: 1.6;
+        }
+
+        #planDisplay ul {
+            list-style-type: disc;
+            padding-left: 25px;
+        }
+
+        #planDisplay ul li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏋️ Ֆիթնես Խորհրդատու Փորձագիտական Համակարգ</h1>
+        <p>Պատասխանեք մի քանի հարցի՝ անհատականացված շաբաթական պլան ստանալու համար:</p>
+
+        <form id="fitnessForm">
+            <div class="question-group">
+                <label for="height">1. Որքա՞ն է Ձեր **հասակը** (սմ-ով):</label>
+                <input type="number" id="height" name="height" min="100" max="250" required>
+            </div>
+
+            <div class="question-group">
+                <label for="weight">2. Որքա՞ն է Ձեր **քաշը** (կգ-ով):</label>
+                <input type="number" id="weight" name="weight" min="30" max="300" required>
+            </div>
+            
+            <div class="question-group">
+                <label for="age">3. Որքա՞ն է Ձեր **տարիքը**:</label>
+                <input type="number" id="age" name="age" min="15" max="100" required>
+            </div>
+
+            <div class="question-group">
+                <label for="activity">4. Որքա՞ն է Ձեր ներկայիս **ֆիզիկական ակտիվության մակարդակը**:</label>
+                <select id="activity" name="activity" required>
+                    <option value="">-- Ընտրեք տարբերակ --</option>
+                    <option value="sedentary">Նստակյաց (Քիչ կամ առանց մարզումների)</option>
+                    <option value="light">Թեթև ակտիվ (Թեթև մարզում/սպորտ շաբաթական 1-3 օր)</option>
+                    <option value="moderate">Չափավոր ակտիվ (Չափավոր մարզում/սպորտ շաբաթական 3-5 օր)</option>
+                    <option value="very">Շատ ակտիվ (Ծանր մարզում/սպորտ շաբաթական 6-7 օր)</option>
+                </select>
+            </div>
+
+            <div class="question-group">
+                <label for="goal">5. Ո՞րն է Ձեր հիմնական **նպատակը**:</label>
+                <select id="goal" name="goal" required>
+                    <option value="">-- Ընտրեք տարբերակ --</option>
+                    <option value="lose_weight">Քաշի կորուստ / Ճարպերի այրում</option>
+                    <option value="maintain">Ներկայիս քաշի պահպանում</option>
+                    <option value="gain_muscle">Մկանային զանգվածի ավելացում / Քաշի ավելացում</option>
+                </select>
+            </div>
+
+            <div class="question-group">
+                <label for="sweets">6. Որքա՞ն հաճախ եք օգտագործում **քաղցրավենիք և ֆասթֆուդ**:</label>
+                <select id="sweets" name="sweets" required>
+                    <option value="">-- Ընտրեք տարբերակ --</option>
+                    <option value="rarely">Շատ հազվադեպ (Շաբաթական 1 անգամ կամ պակաս)</option>
+                    <option value="moderate">Չափավոր (Շաբաթական 2-3 անգամ)</option>
+                    <option value="often">Հաճախ (Ամեն օր կամ գրեթե ամեն օր)</option>
+                </select>
+            </div>
+
+            <div class="question-group">
+                <label for="sleep">7. Միջինում քանի՞ ժամ եք **քնում** գիշերը:</label>
+                <select id="sleep" name="sleep" required>
+                    <option value="">-- Ընտրեք տարբերակ --</option>
+                    <option value="less_6">6 ժամից պակաս</option>
+                    <option value="7_8">7-8 ժամ (Օպտիմալ)</option>
+                    <option value="more_9">9 ժամից ավելի</option>
+                </select>
+            </div>
+
+            <button type="submit">Ստանալ Իմ Պլանը</button>
+        </form>
+
+        <div id="result" class="result-area hidden">
+            <h2>✨ Ձեր Անհատականացված Առաջարկը</h2>
+            <div id="calorieDisplay"></div>
+            <div id="planDisplay"></div>
+            <div id="adviceDisplay"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
